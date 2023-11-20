@@ -1,16 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { DiagnosisForm } from "./pages/DiagnosisPage"; // Importe o componente DiagnosisForm aqui
-import Test from "./pages/Test";
+import { DiagnosisPage, Home } from "./pages/index";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rota para o DiagnosisForm */}
-        <Route path="/diagnostico" Component={DiagnosisForm} />
 
-        {/* Rota padrão */}
-        <Route path="/" Component={Test} />
+        <Route path="/diagnostico" Component={DiagnosisPage} />
+
+        <Route path="/" Component={Home} />
       </Routes>
     </BrowserRouter>
   );

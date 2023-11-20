@@ -73,7 +73,3 @@ button:focus-visible {
 .vsc-initialized .chakra-ui-dark {
   height: 100vh !important;
 }
-
-#root {
-  width: 980px;
-}
