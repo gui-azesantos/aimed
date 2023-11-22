@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   Box,
   Button,
@@ -9,15 +11,13 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { useState } from "react";
-
 import { useForm } from "react-hook-form";
 import LandingLayout from "../../components/LandingLayout";
 import { useOpenAPI } from "../../hooks/useOpenAPI/useOpenAPI";
 import { CustomForm, FormContainer } from "./styles";
 
 export const DiagnosisPage: React.FC = () => {
-  const [response, setResponse] = useState<string | null>();
+  const [response, setResponse] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const { getResponse } = useOpenAPI();
 
@@ -36,23 +36,28 @@ export const DiagnosisPage: React.FC = () => {
 
   console.log(response);
 
-  const formatResponse = (response?: string | null) => {
-    if (response) {
-      const secoesSeparadas = response.match(
-        /(Possíveis Diagnósticos:[\s\S]*?)(Recomendações para Tratamento:[\s\S]*)/
-      );
+  const formatResponse = (response: string | undefined) => {
+    const sections = response?.match(
+      /(Possíveis Diagnósticos:[\s\S]*?)(Recomendações para Tratamento:[\s\S]*)/
+    );
+    const formattedText: string[] | undefined = sections?.map((item) => {
+      const text = item.split("-");
 
-      if (secoesSeparadas) {
-        const secaoDiagnostico: string = secoesSeparadas[1]
-          .trim()
-          .replace("Possíveis Diagnósticos: - ", "");
-        const secaoTratamento: string = secoesSeparadas[2]
-          .trim()
-          .replace("Recomendações para Tratamento: - ", "");
+      return `
+          ${text[0]}
+          \n
+          ${text
+            ?.map((item: string, index: number) => {
+              if (index > 0) {
+                return `- ${item}`;
+              }
+            })
+            .join("")}
+    `;
+    });
+    console.log(formattedText);
 
-        return [secaoDiagnostico, secaoTratamento];
-      }
-    }
+    return formattedText;
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,8 +65,10 @@ export const DiagnosisPage: React.FC = () => {
     setIsLoading(true);
     try {
       const response = await getResponse(data);
-      formatResponse(response.choices[0].message.content);
-      setResponse(response.choices[0].message.content);
+      formatResponse(response.choices[0].message.content || undefined);
+      setResponse(response.choices[0].message.content || undefined);
+
+      console.log(response.choices[0].message.content);
     } catch (error) {
       console.error("Erro na requisição:", error);
     } finally {
@@ -70,8 +77,8 @@ export const DiagnosisPage: React.FC = () => {
   };
 
   return (
-    <LandingLayout>
-      <Flex direction={"column"} gap="40px">
+    <LandingLayout h="full">
+      <Flex pt="48px" direction={"column"} gap="40px">
         <FormContainer>
           <Text as={"h1"} fontSize="32" fontWeight={600}>
             Gerador de diagnóstico
@@ -121,7 +128,7 @@ export const DiagnosisPage: React.FC = () => {
         {isLoading ? (
           <Spinner />
         ) : (
-          response && (
+          response !== undefined && (
             <>
               <Text fontSize="2xl" fontWeight="bold" color="white">
                 Resposta
@@ -134,7 +141,8 @@ export const DiagnosisPage: React.FC = () => {
                   maxW="md"
                   id="response"
                 >
-                  <Text color={"white"}>{formatResponse(response)?.[0]}</Text>
+                  {formatResponse(response)}
+                  <Text color={"white"}></Text>
                 </Box>
               </Container>
               <Container maxW="2xl" bg="red.600" centerContent>
@@ -146,7 +154,7 @@ export const DiagnosisPage: React.FC = () => {
                   id="response"
                 >
                   <Text color={"white"} mt={24} margin={0}>
-                    {formatResponse(response)?.[1]}
+                    {formatResponse(response)}
                   </Text>
                 </Box>
               </Container>

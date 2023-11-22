@@ -56,8 +56,9 @@ const Header = (props: any) => {
 
   return (
     <Flex
+      pt="48px"
       as="nav"
-      align="center"
+      align="flex-start"
       justify="space-between"
       wrap="wrap"
       w="100%"
@@ -89,10 +90,8 @@ const Header = (props: any) => {
           pt={[4, 4, 0, 0]}
         >
           <MenuItem to="/">Home</MenuItem>
-          <MenuItem to="/diagnostico">Como funciona </MenuItem>
-          <MenuItem to="/faetures">Features </MenuItem>
-          <MenuItem to="/pricing">Pricing </MenuItem>
-          <MenuItem to="/signup" isLast>
+          <MenuItem to="/features">Como funciona </MenuItem>
+          <MenuItem to="/diagnostico" isLast>
             <Button
               size="sm"
               rounded="md"
@@ -107,7 +106,7 @@ const Header = (props: any) => {
                 ],
               }}
             >
-              Create Account
+              Teste Agora
             </Button>
           </MenuItem>
         </Flex>

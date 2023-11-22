@@ -10,6 +10,7 @@ export default function LandingLayout(props: any) {
       maxW={{ xl: "1200px" }}
       m="0 auto"
       {...props}
+      // h={"full"}
     >
       <Header />
       {props.children}
