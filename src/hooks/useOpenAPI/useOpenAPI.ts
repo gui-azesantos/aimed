@@ -14,13 +14,13 @@ export const useOpenAPI = () => {
       messages: [
         {
           role: "user",
-          content: `Irei passar uma lista de informações e gostaria que você retornasse um possível diagnóstico e tratamento
+          content: `Irei passar uma lista de informações e gostaria que você retornasse um possível diagnóstico e tratamento. Seja sucinto e breve, diga apenas o nome das possíveis doenças e tratamentos. Lembre-se que será um médico que irá ler sua resposta.
             Sintomas: ${data.symptoms}.
             Idade: ${data.age}
             Sexo biológico: ${data.biologicSex}
             Outras observações: ${data.additionalObservations}
   
-            Devolva no seguinte formato
+            Devolva no seguinte formato:
   
             Possíveis Diagnósticos:
   
@@ -28,7 +28,7 @@ export const useOpenAPI = () => {
   
             Recomendações para Tratamento:
   
-            -- insira sua resposta aqui --.`,
+            -- insira sua resposta aqui --`,
         },
       ],
       model: "gpt-3.5-turbo",

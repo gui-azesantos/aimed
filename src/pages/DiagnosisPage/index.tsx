@@ -1,18 +1,17 @@
 import { useState } from "react";
 
 import {
-  Box,
   Button,
-  Container,
   Flex,
   Input,
   Select,
-  Spinner,
+  Skeleton,
   Text,
   Textarea,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import LandingLayout from "../../components/LandingLayout";
+
+import { LandingLayout, ReportCard } from "../../components";
 import { useOpenAPI } from "../../hooks/useOpenAPI/useOpenAPI";
 import { CustomForm, FormContainer } from "./styles";
 
@@ -40,24 +39,20 @@ export const DiagnosisPage: React.FC = () => {
     const sections = response?.match(
       /(Possíveis Diagnósticos:[\s\S]*?)(Recomendações para Tratamento:[\s\S]*)/
     );
-    const formattedText: string[] | undefined = sections?.map((item) => {
-      const text = item.split("-");
 
-      return `
-          ${text[0]}
-          \n
-          ${text
-            ?.map((item: string, index: number) => {
-              if (index > 0) {
-                return `- ${item}`;
-              }
-            })
-            .join("")}
-    `;
+    const formattedText = sections?.map((item) => {
+      const text = item.split(/-\s/gi);
+
+      // Remover o texto do título da seção
+      const sectionText = text
+        .filter((_item, index) => index > 0)
+        .map((item) => item.trim())
+        .join("\n- ");
+
+      return `- ${sectionText}`;
     });
-    console.log(formattedText);
 
-    return formattedText;
+    return formattedText || [];
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -78,7 +73,7 @@ export const DiagnosisPage: React.FC = () => {
 
   return (
     <LandingLayout h="full">
-      <Flex pt="48px" direction={"column"} gap="40px">
+      <Flex pt="48px" direction={"column"} gap="40px" max-width={700} w="full">
         <FormContainer>
           <Text as={"h1"} fontSize="32" fontWeight={600}>
             Gerador de diagnóstico
@@ -126,39 +121,18 @@ export const DiagnosisPage: React.FC = () => {
           </CustomForm>
         </FormContainer>
         {isLoading ? (
-          <Spinner />
+          <Skeleton endColor="#00C957">
+            <div>loading</div>
+            <div>loading</div>
+            <div>loading</div>
+            <div>loading</div>
+          </Skeleton>
         ) : (
           response !== undefined && (
-            <>
-              <Text fontSize="2xl" fontWeight="bold" color="white">
-                Resposta
-              </Text>
-              <Container maxW="2xl" bg="blue.600" centerContent>
-                <Box
-                  padding="4"
-                  bg="blue.400"
-                  color="black"
-                  maxW="md"
-                  id="response"
-                >
-                  {formatResponse(response)}
-                  <Text color={"white"}></Text>
-                </Box>
-              </Container>
-              <Container maxW="2xl" bg="red.600" centerContent>
-                <Box
-                  padding="4"
-                  bg="red.500"
-                  color="black"
-                  maxW="md"
-                  id="response"
-                >
-                  <Text color={"white"} mt={24} margin={0}>
-                    {formatResponse(response)}
-                  </Text>
-                </Box>
-              </Container>
-            </>
+            <ReportCard
+              diagnosis={formatResponse(response)[1]}
+              treatment={formatResponse(response)[2]}
+            />
           )
         )}
       </Flex>

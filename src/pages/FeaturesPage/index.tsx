@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import { IoAnalyticsSharp, IoLockOpen, IoMedical } from "react-icons/io5";
-import LandingLayout from "../../components/LandingLayout";
+import { LandingLayout } from "../../components";
 import { SimpleThreeColumns } from "../../components/SimpleThreeColumns";
 
 interface FeatureProps {

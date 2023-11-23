@@ -1,5 +1,5 @@
+import { LandingLayout } from "../../components";
 import Hero from "../../components/Hero";
-import LandingLayout from "../../components/LandingLayout";
 
 export const Home: React.FC = () => {
   return (

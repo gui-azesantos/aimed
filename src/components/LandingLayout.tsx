@@ -2,7 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import Header from "../components/Header";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function LandingLayout(props: any) {
+export const LandingLayout = (props: any) => {
   return (
     <Flex
       direction="column"
@@ -16,4 +16,4 @@ export default function LandingLayout(props: any) {
       {props.children}
     </Flex>
   );
-}
+};
