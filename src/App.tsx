@@ -1,16 +1,12 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { useEffect } from "react";
 import "./App.css";
 import Router from "./Router";
+import { theme } from "./theme";
 
 function App() {
-  useEffect(() => {
-    localStorage.setItem("chakra-ui-color-mode", "dark");
-  }, []);
-
   return (
     <>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Router />
       </ChakraProvider>
     </>

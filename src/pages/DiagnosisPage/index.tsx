@@ -33,8 +33,6 @@ export const DiagnosisPage: React.FC = () => {
     },
   });
 
-  console.log(response);
-
   const formatResponse = (response: string | undefined) => {
     const sections = response?.match(
       /(Possíveis Diagnósticos:[\s\S]*?)(Recomendações para Tratamento:[\s\S]*)/
@@ -62,8 +60,6 @@ export const DiagnosisPage: React.FC = () => {
       const response = await getResponse(data);
       formatResponse(response.choices[0].message.content || undefined);
       setResponse(response.choices[0].message.content || undefined);
-
-      console.log(response.choices[0].message.content);
     } catch (error) {
       console.error("Erro na requisição:", error);
     } finally {

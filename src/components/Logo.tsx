@@ -10,10 +10,21 @@ export default function Logo(props: any) {
       justify-content="space-between"
       gap="12px"
       align-items="center !importante"
+      w={"100%"}
     >
       <Image alt="logo" width="32px" height="32px" src={AImedLogo} />
       <Text fontWeight={700} margin={0} display="block">
-        AImed
+        <span
+          style={{
+            color: "#00C957",
+            fontSize: "18px",
+            fontWeight: 900,
+            paddingRight: "1px",
+          }}
+        >
+          AI
+        </span>
+        med - Saúde Inteligente
       </Text>
     </Flex>
   );
